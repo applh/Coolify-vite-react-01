@@ -24,10 +24,10 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2 font-display font-bold text-lg tracking-tight">
             <Box className="w-6 h-6 text-primary" />
-            <span>Coolify<span className="text-white/50">Starter</span></span>
+            <span>Coolify<span className="text-white/80">Starter</span></span>
           </div>
           <div className="flex items-center gap-4">
-            <a href="https://github.com" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors duration-200">
+            <a href="https://github.com" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-white/90 hover:text-white transition-colors duration-200">
               <Github className="w-4 h-4" />
               <span>GitHub</span>
             </a>
@@ -46,7 +46,7 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary-300 text-xs font-mono mb-8"
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/40 bg-primary/20 text-white/90 text-xs font-mono mb-8"
             >
               <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
               Ready for Coolify v4
@@ -59,14 +59,14 @@ export default function App() {
               className="font-display text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tighter leading-[0.9] mb-8"
             >
               Ship faster on <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/40">your own</span> servers.
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70">your own</span> servers.
             </motion.h1>
             
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-lg sm:text-xl text-white/60 leading-relaxed font-light max-w-2xl mb-10"
+              className="text-lg sm:text-xl text-white/80 leading-relaxed font-light max-w-2xl mb-10"
             >
               A clean, high-performance React application pre-configured for seamless deployment on Coolify. Pull from GitHub and go live in seconds without vendor lock-in.
             </motion.p>
@@ -117,7 +117,7 @@ export default function App() {
               transition={{ duration: 0.6 }}
             >
               <h2 className="font-display text-4xl font-bold tracking-tight mb-4">Zero configuration deployment.</h2>
-              <p className="text-white/60 mb-8 leading-relaxed">
+              <p className="text-white/80 mb-8 leading-relaxed">
                 Coolify handles everything via Nixpacks by default, but we've included optional Docker configurations if you need fine-grained control over your Nginx setup for edge caching and compression.
               </p>
 
@@ -126,21 +126,21 @@ export default function App() {
                   <CheckCircle2 className="w-5 h-5 text-accent shrink-0 mt-0.5" />
                   <div>
                     <h3 className="font-semibold mb-1">Push to GitHub</h3>
-                    <p className="text-sm text-white/50">Keep your source code safe in your repository.</p>
+                    <p className="text-sm text-white/70">Keep your source code safe in your repository.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <CheckCircle2 className="w-5 h-5 text-accent shrink-0 mt-0.5" />
                   <div>
                     <h3 className="font-semibold mb-1">Create Coolify Project</h3>
-                    <p className="text-sm text-white/50">Add a new public repository resource.</p>
+                    <p className="text-sm text-white/70">Add a new public repository resource.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <CheckCircle2 className="w-5 h-5 text-accent shrink-0 mt-0.5" />
                   <div>
                     <h3 className="font-semibold mb-1">Deploy</h3>
-                    <p className="text-sm text-white/50">Coolify builds and serves the statics assets immediately.</p>
+                    <p className="text-sm text-white/70">Coolify builds and serves the statics assets immediately.</p>
                   </div>
                 </div>
               </div>
@@ -159,23 +159,23 @@ export default function App() {
                   <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
                   <div className="w-3 h-3 rounded-full bg-green-500/80" />
                 </div>
-                <div className="ml-4 flex gap-4 text-xs font-mono text-white/40">
+                <div className="ml-4 flex gap-4 text-xs font-mono text-white/70">
                   <button 
                     onClick={() => setActiveTab("docker")}
-                    className={`hover:text-white/80 transition-colors ${activeTab === 'docker' ? 'text-primary' : ''}`}
+                    className={`hover:text-white transition-colors ${activeTab === 'docker' ? 'text-primary' : ''}`}
                   >
                     Dockerfile
                   </button>
                   <button 
                     onClick={() => setActiveTab("nginx")}
-                    className={`hover:text-white/80 transition-colors ${activeTab === 'nginx' ? 'text-primary' : ''}`}
+                    className={`hover:text-white transition-colors ${activeTab === 'nginx' ? 'text-primary' : ''}`}
                   >
                     nginx.conf
                   </button>
                 </div>
               </div>
               
-              <div className="p-6 overflow-x-auto text-sm font-mono text-white/80">
+              <div className="p-6 overflow-x-auto text-sm font-mono text-white/90">
                 {activeTab === 'docker' ? (
                   <pre className="!bg-transparent !p-0 m-0">
                     <code>
@@ -226,7 +226,7 @@ export default function App() {
       </main>
 
       <footer className="border-t border-white/10 py-12">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/40">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/70">
           <div className="flex items-center gap-2">
             <Box className="w-4 h-4" />
             <span>Built for Coolify</span>
@@ -251,7 +251,7 @@ function FeatureCard({ icon, title, desc, delay }: { icon: React.ReactNode, titl
         {icon}
       </div>
       <h2 className="font-display font-semibold text-xl mb-2">{title}</h2>
-      <p className="text-white/50 leading-relaxed text-sm">{desc}</p>
+      <p className="text-white/70 leading-relaxed text-sm">{desc}</p>
     </motion.div>
   );
 }
