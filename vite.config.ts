@@ -19,13 +19,10 @@ export default defineConfig(({mode}) => {
       target: 'esnext',
       minify: 'esbuild',
       cssMinify: true,
+      cssCodeSplit: false, // Forces all CSS into a single file
       rollupOptions: {
         output: {
-          manualChunks: {
-            'vendor-react': ['react', 'react-dom'],
-            'vendor-motion': ['motion'],
-            'vendor-lucide': ['lucide-react']
-          }
+          manualChunks: undefined, // Removes manual chunks to generate fewer JS files
         }
       }
     },

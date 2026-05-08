@@ -17,7 +17,7 @@ export function Layout() {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="min-h-screen bg-base-950 text-white overflow-hidden selection:bg-primary/30 flex flex-col">
+    <div className="min-h-screen bg-base-950 text-white overflow-hidden flex flex-col">
       {/* Background Grid */}
       <div className="fixed inset-0 pointer-events-none bg-grid-white/[0.02] bg-[size:40px_40px] mask-fade-out z-[-1]" />
       
@@ -26,7 +26,7 @@ export function Layout() {
       <div className="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-accent/10 blur-[100px] pointer-events-none z-[-1]" />
 
       {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-base-950/80 backdrop-blur-md">
+      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-base-950">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 font-display font-bold text-lg tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md">
             <Box className="w-6 h-6 text-primary" aria-hidden="true" />
@@ -39,7 +39,7 @@ export function Layout() {
               <Link
                 key={link.name}
                 to={link.path}
-                className={`text-sm font-medium transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md px-2 py-1 ${isActive(link.path) ? "text-primary" : "text-white/80 hover:text-white"}`}
+                className={`text-sm font-medium transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md px-2 py-1 ${isActive(link.path) ? "text-white font-semibold" : "text-white/90 hover:text-white"}`}
               >
                 {link.name}
               </Link>
@@ -72,7 +72,7 @@ export function Layout() {
                   key={link.name}
                   to={link.path}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${isActive(link.path) ? "bg-white/10 text-primary" : "text-white/80 hover:bg-white/5 hover:text-white"}`}
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${isActive(link.path) ? "bg-white/10 text-white" : "text-white/90 hover:bg-white/5 hover:text-white"}`}
                 >
                   {link.name}
                 </Link>

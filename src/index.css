@@ -10,8 +10,8 @@
   --color-base-900: #121212;
   --color-base-800: #1c1c1c;
   --color-base-200: #e5e5e5;
-  --color-primary: #9d4edd; /* A nice purple, common in tech */
-  --color-primary-glow: rgba(157, 78, 221, 0.5);
+  --color-primary: #c084fc; /* A lighter purple for better contrast */
+  --color-primary-glow: rgba(192, 132, 252, 0.5);
   --color-accent: #10b981; /* Success green */
 }
 
