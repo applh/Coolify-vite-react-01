@@ -12,6 +12,14 @@ CoolifyStarter is built using a modern, fast, and scalable frontend stack.
 - **Icons:** Lucide React
 - **SEO Elements:** React Helmet Async (`react-helmet-async`)
 
+## Backend Stack (Express)
+
+- **Runtime:** Node.js
+- **Framework:** Express.js
+- **Persistence:** Local JSON File Storage (`/data/submissions.json`)
+- **Authentication:** Custom Passkey logic with `jsonwebtoken`
+- **Mail:** `nodemailer` for SMTP integrations
+
 ## Bundling Strategy
 
 To minimize the number of HTTP requests and improve initial load performance when served through HTTP/2 or HTTP/3, the application is configured to output a single JavaScipt file and a single CSS file.

@@ -21,6 +21,9 @@ import { Privacy } from "./pages/Privacy";
 import { Terms } from "./pages/Terms";
 import { Legal } from "./pages/Legal";
 
+// Admin page
+import { Admin } from "./pages/Admin";
+
 export default function App() {
   return (
     <HelmetProvider>
@@ -37,6 +40,7 @@ export default function App() {
             <Route path="privacy" element={<Privacy />} />
             <Route path="terms" element={<Terms />} />
             <Route path="legal" element={<Legal />} />
+            <Route path="admin" element={<Admin />} />
           </Route>
         </Routes>
       </BrowserRouter>

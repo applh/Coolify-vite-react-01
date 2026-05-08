@@ -4,18 +4,20 @@ Welcome to the documentation for CoolifyStarter. This project is a highly optimi
 
 ## Table of Contents
 
+- [Feature Overview](FEATURES.md)
 - [Architecture Overview](ARCHITECTURE.md)
 - [Deployment Guide](DEPLOYMENT.md)
+- [Managing Data Persistence](PERSISTENCE.md)
 - [Contact Form Implementation Plan](CONTACT_FORM_PLAN.md)
 
 ## Key Features
 
+- **Full-Stack Node.js Architecture:** Express backend with a React SPA frontend.
+- **Secure Admin Dashboard:** Passkey and JWT-based authentication `/admin` area.
+- **Contact Form with SMTP:** Validated form that emails administrators and locally persists messages.
 - **React 19 & Vite:** Lightning fast development and optimized production builds.
-- **Tailwind CSS v4:** Utility-first styling with minimal CSS bundle sizes.
-- **Coolify Ready:** Pre-configured Dockerfile and NGINX configurations.
-- **Performance Optimized:** Single CSS/JS bundle configuration, caching headers, and DNS prefetching.
-- **Accessible & SEO Friendly:** Semantic HTML, high contrast colors, React Helmet for meta tags, and robots.txt/sitemap included.
-- **Fully Responsive:** Mobile-first design that scales perfectly to desktop.
+- **Tailwind CSS v4:** Utility-first styling with high-contrast accessibility.
+- **Coolify Ready:** Nixpacks and Dockerfile deployment options out-of-the-box.
 
 ## Local Development
 

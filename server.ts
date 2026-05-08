@@ -4,6 +4,7 @@ import nodemailer from "nodemailer";
 import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from 'url';
+import jwt from "jsonwebtoken";
 
 // ESM Support
 const __filename = fileURLToPath(import.meta.url);
@@ -55,31 +56,98 @@ async function startServer() {
       await fs.writeFile(submissionsFile, JSON.stringify(submissions, null, 2));
 
       // Send Email via SMTP if configured
-      if (process.env.SMTP_HOST && process.env.SMTP_USER) {
-        const transporter = nodemailer.createTransport({
-          host: process.env.SMTP_HOST,
-          port: parseInt(process.env.SMTP_PORT || '587'),
-          secure: process.env.SMTP_PORT === '465',
-          auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASS,
-          },
-        });
+      if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
+        try {
+          const transporter = nodemailer.createTransport({
+            host: process.env.SMTP_HOST,
+            port: parseInt(process.env.SMTP_PORT || '587'),
+            secure: process.env.SMTP_PORT === '465',
+            auth: {
+              user: process.env.SMTP_USER,
+              pass: process.env.SMTP_PASS,
+            },
+          });
 
-        await transporter.sendMail({
-          from: `"Contact Form" <${process.env.SMTP_USER}>`,
-          to: process.env.SMTP_USER, // Send to self or admin email
-          subject: `New Contact from ${firstName} ${lastName}`,
-          text: `Name: ${firstName} ${lastName}\nEmail: ${email}\n\nMessage:\n${message}`,
-        });
+          await transporter.sendMail({
+            from: `"Contact Form" <${process.env.SMTP_USER}>`,
+            to: process.env.SMTP_USER, // Send to self or admin email
+            subject: `New Contact from ${firstName} ${lastName}`,
+            text: `Name: ${firstName} ${lastName}\nEmail: ${email}\n\nMessage:\n${message}`,
+          });
+          console.log("Email notification sent successfully.");
+        } catch (emailError) {
+          console.error("Failed to send email notification:", emailError);
+          // We don't throw here to ensure the user still gets a success response, 
+          // as the submission was successfully saved locally.
+        }
       } else {
-        console.log("SMTP not configured. Skipping email notification. Submission saved locally.");
+        console.log("SMTP not fully configured (missing host, user, or pass). Skipping email notification. Submission saved locally.");
       }
 
       res.status(200).json({ success: true });
     } catch (error) {
       console.error("Error processing contact form:", error);
       res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Admin Login
+  app.post("/api/admin/login", (req, res) => {
+    const { passkey } = req.body;
+    if (!process.env.ADMIN_PASSKEY || !process.env.JWT_SECRET) {
+      return res.status(500).json({ error: "Admin passkey or JWT secret not configured on server" });
+    }
+
+    if (passkey === process.env.ADMIN_PASSKEY) {
+      const token = jwt.sign({ admin: true }, process.env.JWT_SECRET, { expiresIn: '1d' });
+      res.json({ token, success: true });
+    } else {
+      res.status(401).json({ error: "Invalid passkey" });
+    }
+  });
+
+  // Admin Middleware
+  const requireAdmin = (req: any, res: any, next: any) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ error: "Missing or invalid token" });
+    }
+
+    const token = authHeader.split(' ')[1];
+    if (!process.env.JWT_SECRET) {
+      return res.status(500).json({ error: "JWT secret not configured" });
+    }
+
+    try {
+      jwt.verify(token, process.env.JWT_SECRET);
+      next();
+    } catch (err) {
+      res.status(401).json({ error: "Invalid or expired token" });
+    }
+  };
+
+  // Get Submissions
+  app.get("/api/admin/submissions", requireAdmin, async (req, res) => {
+    const submissionsFile = path.join(dataDir, 'submissions.json');
+    try {
+      const data = await fs.readFile(submissionsFile, 'utf-8');
+      res.json(JSON.parse(data));
+    } catch (e) {
+      res.json([]);
+    }
+  });
+
+  // Delete Submission
+  app.delete("/api/admin/submissions/:id", requireAdmin, async (req, res) => {
+    const submissionsFile = path.join(dataDir, 'submissions.json');
+    try {
+      const data = await fs.readFile(submissionsFile, 'utf-8');
+      let submissions: any[] = JSON.parse(data);
+      submissions = submissions.filter(s => s.id !== req.params.id);
+      await fs.writeFile(submissionsFile, JSON.stringify(submissions, null, 2));
+      res.json({ success: true });
+    } catch (e) {
+      res.status(500).json({ error: "Error deleting submission" });
     }
   });
 
