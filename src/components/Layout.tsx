@@ -1,6 +1,7 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { Box, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { ContactSection } from "./ContactSection";
 
 export function Layout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -15,6 +16,7 @@ export function Layout() {
   ];
 
   const isActive = (path: string) => location.pathname === path;
+  const isContactPage = location.pathname === "/contact";
 
   return (
     <div className="min-h-screen bg-base-950 text-white overflow-hidden flex flex-col">
@@ -91,6 +93,9 @@ export function Layout() {
       <main className="flex-1 flex flex-col relative pt-16">
         <Outlet />
       </main>
+
+      {/* Global Contact Section */}
+      {!isContactPage && <ContactSection />}
 
       {/* Footer */}
       <footer className="border-t border-white/10 py-12 mt-auto bg-base-900/50 backdrop-blur-sm">
