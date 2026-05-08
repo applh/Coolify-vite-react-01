@@ -16,7 +16,20 @@
     <title>Coolify Ready Starter</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <style>
+        body { margin: 0; background-color: #0a0a0a; color: white; font-family: "Inter", sans-serif; }
+        .ssr-nav { height: 64px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .ssr-main { padding-top: 8rem; padding-left: 1.5rem; padding-right: 1.5rem; max-width: 80rem; margin: 0 auto; box-sizing: border-box; }
+        .ssr-h1 { font-family: "Space Grotesk", sans-serif; font-size: 3.75rem; font-weight: 700; line-height: 0.9; margin: 0 0 2rem 0; letter-spacing: -0.05em; }
+        @media (min-width: 640px) { .ssr-h1 { font-size: 4.5rem; } }
+        @media (min-width: 1024px) { .ssr-h1 { font-size: 6rem; } }
+      </style>
+      <div class="ssr-nav"></div>
+      <div class="ssr-main">
+        <h1 class="ssr-h1">Ship faster on <br>your own servers.</h1>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

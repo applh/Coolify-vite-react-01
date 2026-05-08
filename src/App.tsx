@@ -42,40 +42,28 @@ export default function App() {
         <div className="max-w-7xl mx-auto">
           {/* Hero Section */}
           <div className="max-w-3xl mb-24">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/40 bg-primary/20 text-white/90 text-xs font-mono mb-8"
+            <div
+              className="hero-animate inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/40 bg-primary/20 text-white/90 text-xs font-mono mb-8"
             >
               <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
               Ready for Coolify v4
-            </motion.div>
+            </div>
             
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="font-display text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tighter leading-[0.9] mb-8"
+            <h1 
+              className="hero-animate delay-100 font-display text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tighter leading-[0.9] mb-8"
             >
               Ship faster on <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70">your own</span> servers.
-            </motion.h1>
+            </h1>
             
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-lg sm:text-xl text-white/80 leading-relaxed font-light max-w-2xl mb-10"
+            <p 
+              className="hero-animate delay-200 text-lg sm:text-xl text-white/80 leading-relaxed font-light max-w-2xl mb-10"
             >
               A clean, high-performance React application pre-configured for seamless deployment on Coolify. Pull from GitHub and go live in seconds without vendor lock-in.
-            </motion.p>
+            </p>
 
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-wrap items-center gap-4"
+            <div 
+              className="hero-animate delay-300 flex flex-wrap items-center gap-4"
             >
               <button className="px-6 py-3 rounded-full bg-white text-black font-semibold tracking-tight hover:scale-105 active:scale-95 transition-transform duration-200 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
                 Deploy to Coolify
@@ -83,7 +71,7 @@ export default function App() {
               <a href="#architecture" className="px-6 py-3 rounded-full border border-white/10 hover:bg-white/5 transition-colors duration-200">
                 View Architecture
               </a>
-            </motion.div>
+            </div>
           </div>
 
           {/* Features Grid */}
