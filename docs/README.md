@@ -8,6 +8,7 @@ Welcome to the documentation for CoolifyStarter. This project is a highly optimi
 - [Architecture Overview](ARCHITECTURE.md)
 - [Deployment Guide](DEPLOYMENT.md)
 - [Managing Data Persistence](PERSISTENCE.md)
+- [Troubleshooting Guide](TROUBLESHOOTING.md)
 - [Contact Form Implementation Plan](CONTACT_FORM_PLAN.md)
 
 ## Key Features
