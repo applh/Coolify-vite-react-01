@@ -10,12 +10,24 @@ COPY . .
 RUN npm run build
 
 # Production server
-FROM nginx:alpine
-# Copy built assets
-COPY --from=builder /app/dist /usr/share/nginx/html
-# Copy custom nginx config
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+FROM node:23-alpine AS runner
+WORKDIR /app
 
-EXPOSE 80
+# Copy built assets and required files
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/server.ts ./server.ts
 
-CMD ["nginx", "-g", "daemon off;"]
+# Ensure data directory exists and set permissions
+RUN mkdir -p data && chown -R node:node data
+
+EXPOSE 3000
+
+ENV NODE_ENV=production
+ENV PORT=3000
+
+USER node
+
+CMD ["npm", "run", "start"]
+

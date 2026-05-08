@@ -20,24 +20,24 @@ Welcome to the documentation for CoolifyStarter. This project is a highly optimi
 - **Tailwind CSS v4:** Utility-first styling with high-contrast accessibility.
 - **Coolify Ready:** Nixpacks and Dockerfile deployment options out-of-the-box.
 
-## Local Development
+## Quick Start
 
-To get started with local development:
-
-1. Install dependencies:
+1. **Clone & Install:**
    ```bash
+   git clone <your-repo>
+   cd <your-repo>
    npm install
    ```
 
-2. Start the development server:
-   ```bash
-   npm run dev
-   ```
+2. **Configure Environment:**
+   Copy `.env.example` to `.env` and fill in your details:
+   - `ADMIN_PASSKEY`: Used to access the admin panel.
+   - `JWT_SECRET`: For signing auth tokens.
+   - `SMTP_*`: Required for email notifications.
 
-3. Build for production:
-   ```bash
-   npm run build
-   ```
+3. **Core Requirements:**
+   - **Node.js:** 23.x or higher is recommended for the best experience with Vite 6 and React 19 features.
+   - **Persistence:** Ensure `/app/data` is mounted to a volume in production to prevent data loss.
 
 ## Folder Structure
 

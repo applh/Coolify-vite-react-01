@@ -28,13 +28,36 @@ Follow the steps in the [Managing Data Persistence](PERSISTENCE.md) guide to map
 
 ### "npm ci" Fails With Lockfile Mismatch
 **Issue:**
-Deployment fails on the `npm ci` build step with errors like `Invalid: lock file's vite@8.0.11 does not satisfy vite@6.4.2` or missing babel dependencies.
+Deployment fails on the `npm ci` build step with errors like `Invalid: lock file's vite@8.0.11 does not satisfy vite@6.4.2`.
 
 **Cause:**
-`npm ci` requires that the `package-lock.json` file exactly matched the dependencies constrained in `package.json`. If you previously attempted to upgrade Vite or manually edited the `package.json` to downgrade it without a successful clean `npm install`, the lockfile will be out of sync.
+`npm ci` requires the `package-lock.json` to exactly match `package.json`.
 
 **Solution:**
-Delete the `package-lock.json` and run `npm install` locally (or in AI Studio) so that npm can generate a fresh, synchronized lockfile, then restart the deployment.
+Delete `package-lock.json` locally and run `npm install` to regenerate it, then commit and push.
+
+### Server returned invalid response (Status 405 / Empty body)
+**Issue:**
+Submitting the contact form fails with a "405 Method Not Allowed" or an "Unexpected end of JSON input" error.
+
+**Cause:**
+- **Status 405:** In older static NGINX deployments, NGINX is serving the root folder as static assets and does not allow POST requests to those paths.
+- **Empty body:** The server might be crashing or timing out before sending a response.
+
+**Solution:**
+1. Ensure you are using the **Full-Stack Docker** deployment method (as described in the Deployment Guide). This uses Express to handle API routes correctly.
+2. Check the logs for your container to see if the Node.js backend is throwing an error during the request.
+3. Verify that the frontend is calling `/api/contact` and not a different path.
+
+### "Unexpected end of JSON input" on Local Dev
+**Issue:**
+When running `npm run dev`, the contact form fails with this error.
+
+**Cause:**
+You might be accessing the frontend on a port that isn't proxying API requests to the backend, or the backend server (the one running `tsx server.ts`) isn't running simultaneously.
+
+**Solution:**
+Always use `npm run dev` as configured in `package.json`, which runs the Express server. The Express server then integrates Vite as middleware, ensuring both the frontend and the API are available on the same port (default 3000).
 
 ## Application Issues
 

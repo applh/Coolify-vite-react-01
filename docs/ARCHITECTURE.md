@@ -1,11 +1,11 @@
 # Architecture Overview
 
-CoolifyStarter is built using a modern, fast, and scalable frontend stack.
+CoolifyStarter is built using a modern, fast, and scalable full-stack project structure.
 
 ## Frontend Stack
 
 - **Framework:** React 19
-- **Build Tool:** Vite
+- **Build Tool:** Vite 6
 - **Routing:** React Router v7 (`react-router-dom`)
 - **Styling:** Tailwind CSS v4
 - **Animation:** Motion (`motion/react`)
@@ -14,7 +14,7 @@ CoolifyStarter is built using a modern, fast, and scalable frontend stack.
 
 ## Backend Stack (Express)
 
-- **Runtime:** Node.js
+- **Runtime:** Node.js 23+ (Recommended)
 - **Framework:** Express.js
 - **Persistence:** Local JSON File Storage (`/data/submissions.json`)
 - **Authentication:** Custom Passkey logic with `jsonwebtoken`
@@ -38,11 +38,8 @@ Accessibility improvements include using `#c084fc` for primary colors on dark ba
 
 ## Security
 
-The `nginx.conf` is pre-configured with several security headers:
-- `X-Frame-Options`
-- `X-XSS-Protection`
-- `X-Content-Type-Options`
-- `Referrer-Policy`
-- `Content-Security-Policy`
+The project includes pre-configured security headers:
+- **Static Deployment:** The `nginx.conf` includes headers like `CSP`, `X-Frame-Options`, and `HSTS`.
+- **Full-Stack Deployment:** When running via the Node.js `Dockerfile` runner, security is handled by Express. It is recommended to add the `helmet` package for production environments.
 
-These headers protect the application against common web vulnerabilities.
+These guards protect against common web vulnerabilities like XSS, Clickjacking, and MIME-sniffing.

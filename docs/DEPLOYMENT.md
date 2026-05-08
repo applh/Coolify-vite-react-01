@@ -9,29 +9,38 @@ CoolifyStarter is designed to be deployed on Coolify. Depending on your needs, y
 3. Select **Public repository** or **Private repository** depending on your setup.
 4. Enter your Git URL and branch.
 
-## Static Deployment (Default via Dockerfile)
+## Recommended Deployment (Full-Stack Docker)
 
-For serving pure static assets, the repository includes a customized `Dockerfile`.
+This is the default configuration. The root `Dockerfile` uses a multi-stage build to compile the React assets and then a Node.js runner to serve them via Express.
 
-1. In your Coolify project configuration, set the Build Pack to **Docker**.
-2. Coolify will read the `Dockerfile` present in the root.
-3. The multi-stage build outputs a static NGINX image containing your compiled SPA.
-4. Set the internal port to `80`.
+1. **Build Pack:** Set to **Docker** in Coolify.
+2. **Internal Port:** Set to `3000`.
+3. **Environment:** Ensure `NODE_ENV=production` is set.
+4. **Node Version:** The build uses Node 23-alpine. If deploying on a server with limited Node versions, ensure compatibility.
 
-### NGINX Capabilities
+### Benefits of Docker Runner
+- **API Support:** All `/api/*` routes for the contact form and admin dashboard work out of the box.
+- **Persistence:** Local JSON files in `/app/data` can easily be mapped to Persistent Volumes.
+- **Unified Logic:** No separate NGINX configuration is required for routing.
 
-- **SPA Fallback:** Rewrites missing files to `index.html` to support client-side routing.
-- **Aggressive Caching:** Static assets are cached for 1 year.
-- **Gzip Compression:** Enabled for text-based assets to reduce payload size.
-- **Security:** Injects strong security headers (CSP, X-Frame-Options, etc.).
+## Alternative Deployment (Static NGINX)
 
-## Full-Stack Deployment (Node.js via Nixpacks)
+If you only need the frontend and plan to use an external API (or no API at all), you can modify the `Dockerfile` back to an NGINX-only runner or use Nixpacks.
 
-If you plan to implement API routes (like the planned backend-managed contact form), you will deploy using Express.js instead of NGINX.
+> [!WARNING]
+> If you use a static NGINX deployment, the contact form backend and admin dashboard will NOT work unless you point the frontend API calls to a separate backend instance.
 
-1. Ensure your `package.json` has a `start` script configured (e.g., `"start": "node server.js"`).
-2. In Coolify, change the Build Pack to **Nixpacks**. Coolify will automatically detect the Node.js project.
-3. Ensure the exposed port in Coolify matches your Express server port (usually `3000`).
+1. Modify `Dockerfile` to end with `FROM nginx:alpine`.
+2. Set internal port to `80`.
+3. Use `nginx.conf` for SPA routing.
+
+## Deployment via Nixpacks
+
+Nixpacks is an excellent alternative that automatically detects your project type.
+
+1. **Build Pack:** Set to **Nixpacks** in Coolify.
+2. **Settings:** Set `NIXPACKS_NODE_VERSION=23`.
+3. **Port:** Set to `3000`.
 
 ## Managing the Application in Coolify
 
