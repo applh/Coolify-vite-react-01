@@ -1,6 +1,6 @@
 {
   "name": "Coolify Ready Starter",
-  "description": "Une application React/Vite préconfigurée pour un déploiement fluide sur Coolify.",
+  "description": "A stable React/Vite/Express starter pre-configured for seamless full-stack deployment on Coolify and Nixpacks.",
   "requestFramePermissions": [],
   "majorCapabilities": []
 }
