@@ -40,7 +40,13 @@ export function Contact() {
         body: JSON.stringify(formData)
       });
 
-      const data = await response.json();
+      let data;
+      const responseText = await response.text();
+      try {
+        data = JSON.parse(responseText);
+      } catch (parseError) {
+        throw new Error(`Server returned invalid response (Status ${response.status}): ${responseText || '<empty body>'}`);
+      }
 
       if (!response.ok) {
         throw new Error(data.error || "Failed to submit the form.");
