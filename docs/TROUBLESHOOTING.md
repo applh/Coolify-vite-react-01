@@ -26,6 +26,16 @@ Ephemeral Docker containers wipe the filesystem on rebuild unless a Persistent V
 **Solution:**
 Follow the steps in the [Managing Data Persistence](PERSISTENCE.md) guide to map the `/app/data` folder to a Persistent Volume in your Coolify dashboard.
 
+### "npm ci" Fails With Lockfile Mismatch
+**Issue:**
+Deployment fails on the `npm ci` build step with errors like `Invalid: lock file's vite@8.0.11 does not satisfy vite@6.4.2` or missing babel dependencies.
+
+**Cause:**
+`npm ci` requires that the `package-lock.json` file exactly matched the dependencies constrained in `package.json`. If you previously attempted to upgrade Vite or manually edited the `package.json` to downgrade it without a successful clean `npm install`, the lockfile will be out of sync.
+
+**Solution:**
+Delete the `package-lock.json` and run `npm install` locally (or in AI Studio) so that npm can generate a fresh, synchronized lockfile, then restart the deployment.
+
 ## Application Issues
 
 ### Contact Form Emails Not Sending
