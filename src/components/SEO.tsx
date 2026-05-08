@@ -21,8 +21,10 @@ export function SEO({ title, description, canonical }: SEOProps) {
       <meta property="og:description" content={description} />
       <meta property="og:url" content={currentUrl} />
       <meta property="og:type" content="website" />
+      <meta property="og:image" content="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fm=avif&fit=crop&q=80&w=1200&h=630" />
       
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:image" content="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fm=avif&fit=crop&q=80&w=1200&h=630" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
     </Helmet>

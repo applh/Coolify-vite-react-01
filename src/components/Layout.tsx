@@ -31,7 +31,7 @@ export function Layout() {
       <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-base-950">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 font-display font-bold text-lg tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md">
-            <Box className="w-6 h-6 text-primary" aria-hidden="true" />
+            <img src="/logo.svg" className="w-6 h-6" alt="" aria-hidden="true" />
             <span>Coolify<span className="text-white/80">Starter</span></span>
           </Link>
           
@@ -102,10 +102,10 @@ export function Layout() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div className="col-span-1 md:col-span-2">
-              <div className="flex items-center gap-2 font-display font-bold text-lg tracking-tight mb-4">
-                <Box className="w-5 h-5 text-primary" aria-hidden="true" />
+              <Link to="/" className="flex items-center gap-2 font-display font-bold text-lg tracking-tight mb-4">
+                <img src="/logo.svg" className="w-5 h-5" alt="" aria-hidden="true" />
                 <span>Coolify<span className="text-white/80">Starter</span></span>
-              </div>
+              </Link>
               <p className="text-sm text-white/70 max-w-sm leading-relaxed">
                 A blazingly fast Coolify starter template built with React, Vite, and Tailwind CSS.
                 Ship your applications on your own infrastructure with zero friction.

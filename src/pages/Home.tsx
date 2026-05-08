@@ -48,7 +48,7 @@ export function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-wrap items-center gap-4"
+            className="flex flex-wrap items-center gap-4 mb-16"
           >
             <button className="px-6 py-3 rounded-full bg-white text-black font-semibold tracking-tight hover:scale-105 active:scale-95 transition-transform duration-200 shadow-[0_0_20px_rgba(255,255,255,0.2)] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base-950">
               Deploy to Coolify
@@ -56,6 +56,27 @@ export function Home() {
             <a href="#architecture" className="px-6 py-3 rounded-full border border-white/10 hover:bg-white/5 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base-950">
               View Architecture
             </a>
+          </motion.div>
+
+          {/* Hero Image / Visual */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="relative rounded-2xl border border-white/10 overflow-hidden bg-base-900 group"
+          >
+            <div className="absolute inset-0 bg-gradient-to-t from-base-950/80 via-transparent to-transparent z-10" />
+            <img 
+              src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fm=avif&fit=crop&q=80&w=1600&h=800" 
+              alt="Futuristic Network Infrastructure"
+              className="w-full h-[400px] object-cover group-hover:scale-105 transition-transform duration-1000 opacity-60"
+            />
+            <div className="absolute bottom-8 left-8 z-20">
+              <div className="bg-primary/20 backdrop-blur-md border border-primary/30 px-4 py-2 rounded-lg flex items-center gap-2">
+                <Box className="w-4 h-4 text-primary" />
+                <span className="text-white text-sm font-medium tracking-tight">Production Ready Bundle</span>
+              </div>
+            </div>
           </motion.div>
         </div>
 
