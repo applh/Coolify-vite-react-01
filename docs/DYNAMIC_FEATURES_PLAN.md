@@ -57,3 +57,42 @@ Integrated scheduling allows the application to handle background tasks without 
 | **Storage** | `json` files | `sqlite` | Scalability & Data Integrity |
 | **Scheduling** | None | `node-cron` | Automation |
 | **Management** | Manual edits | Web Dashboard | Accessibility & Speed |
+
+---
+
+## Phase 4: Visit Analytics & Robot Tracking
+
+This system provides internal insights into how users and automated crawlers (robots) interact with your application without relying on third-party scripts (like Google Analytics).
+
+### Core Features:
+- **Middleware Tracking:** Intercept every request to log path, user-agent, and IP hash (for privacy).
+- **Robot Identification:** Detect common bots (Googlebot, Bingbot, GPTBot, etc.) via User-Agent strings.
+- **Admin Toggle:** Enable/Disable analytics collection globally from the Admin Dashboard.
+- **Performance Optimization:** Use a "Batch Write" strategy or debounced increments in SQLite to minimize Disk I/O.
+
+### Steps:
+1.  **Database Extension:**
+    *   Add `page_views` table: `id, path, is_robot, user_agent, timestamp`.
+    *   Add `analytics_config` table or a key in `settings` for the "Disabled" toggle.
+2.  **Middleware Logic (`server.ts`):**
+    ```typescript
+    const analyticsMiddleware = (req, res, next) => {
+      if (settings.get('analytics_enabled') !== 'true') return next();
+      
+      const ua = req.headers['user-agent'] || '';
+      const isRobot = /bot|crawler|spider|slurp|search/i.test(ua);
+      
+      // Log to SQLite (async, don't block response)
+      db.prepare('INSERT INTO page_views ...').run(...);
+      next();
+    };
+    ```
+3.  **Admin UI Integration:**
+    *   **Analytics Tab:** Show cards for "Total Visits," "Top Pages," and "Robot Activity %."
+    *   **Controls:** A Toggle Switch (Radix UI / shadcn style) to kill the middleware storage logic.
+
+### Modularity & Security:
+- **Privacy:** IPs will be hashed with a salt (stored in `.env`) before being saved to ensure GDPR/CCPA compliance.
+- **Modularity:** Analytics logic will reside in `src/services/analyticsService.ts` to keep `server.ts` clean.
+- **Security:** Analytics data is restricted to the `requireAdmin` middleware, ensuring only authenticated managers see traffic patterns.
+

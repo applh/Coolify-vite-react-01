@@ -5,6 +5,8 @@ import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from 'url';
 import jwt from "jsonwebtoken";
+import db from "./src/lib/db.js"; // Note: .js extension for ESM if running directly via tsx, or just "./src/lib/db"
+import cron from "node-cron";
 
 // ESM Support
 const __filename = fileURLToPath(import.meta.url);
@@ -24,6 +26,50 @@ async function startServer() {
     await fs.mkdir(dataDir, { recursive: true });
   }
 
+  // --- MIGRATION: JSON to SQLite ---
+  const submissionsFile = path.join(dataDir, 'submissions.json');
+  try {
+    const stats = await fs.stat(submissionsFile);
+    if (stats.isFile()) {
+      console.log("Found legacy submissions.json, migrating to SQLite...");
+      const data = await fs.readFile(submissionsFile, 'utf-8');
+      const legacySubmissions = JSON.parse(data);
+      
+      const insert = db.prepare('INSERT OR IGNORE INTO submissions (id, timestamp, firstName, lastName, email, message) VALUES (?, ?, ?, ?, ?, ?)');
+      const migrationTransaction = db.transaction((subs) => {
+        for (const sub of subs) {
+          insert.run(sub.id, sub.timestamp, sub.firstName, sub.lastName, sub.email, sub.message);
+        }
+      });
+      
+      migrationTransaction(legacySubmissions);
+      console.log(`Migrated ${legacySubmissions.length} records.`);
+      
+      // Rename to backup
+      await fs.rename(submissionsFile, path.join(dataDir, 'submissions.json.bak'));
+      console.log("Legacy file backed up to submissions.json.bak");
+    }
+  } catch (e) {
+    // No legacy file found, which is fine
+  }
+
+  // --- CRON JOBS ---
+  // Heartbeat every hour
+  cron.schedule('0 * * * *', () => {
+    const timestamp = new Date().toISOString();
+    db.prepare('INSERT INTO system_logs (timestamp, event, details) VALUES (?, ?, ?)')
+      .run(timestamp, 'HEARTBEAT', 'System is healthy');
+    console.log(`[CRON] Heartbeat logged at ${timestamp}`);
+  });
+
+  // Daily cleanup (example: delete logs older than 30 days)
+  cron.schedule('0 0 * * *', () => {
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const result = db.prepare('DELETE FROM system_logs WHERE timestamp < ?').run(thirtyDaysAgo.toISOString());
+    console.log(`[CRON] Daily cleanup: Deleted ${result.changes} old log entries.`);
+  });
+
   // API routes
   app.post("/api/contact", async (req, res) => {
     try {
@@ -33,27 +79,12 @@ async function startServer() {
         return res.status(400).json({ error: "All fields are required" });
       }
 
-      // Save to local storage
-      const submissionsFile = path.join(dataDir, 'submissions.json');
-      let submissions: any[] = [];
-      try {
-        const data = await fs.readFile(submissionsFile, 'utf-8');
-        submissions = JSON.parse(data);
-      } catch (e) {
-        // File doesn't exist yet or is empty
-      }
+      const id = Date.now().toString();
+      const timestamp = new Date().toISOString();
 
-      const newSubmission = {
-        id: Date.now().toString(),
-        timestamp: new Date().toISOString(),
-        firstName,
-        lastName,
-        email,
-        message
-      };
-
-      submissions.push(newSubmission);
-      await fs.writeFile(submissionsFile, JSON.stringify(submissions, null, 2));
+      // SQL Insert
+      const stmt = db.prepare('INSERT INTO submissions (id, timestamp, firstName, lastName, email, message) VALUES (?, ?, ?, ?, ?, ?)');
+      stmt.run(id, timestamp, firstName, lastName, email, message);
 
       // Send Email via SMTP if configured
       if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
@@ -128,26 +159,45 @@ async function startServer() {
 
   // Get Submissions
   app.get("/api/admin/submissions", requireAdmin, async (req, res) => {
-    const submissionsFile = path.join(dataDir, 'submissions.json');
     try {
-      const data = await fs.readFile(submissionsFile, 'utf-8');
-      res.json(JSON.parse(data));
+      const submissions = db.prepare('SELECT * FROM submissions ORDER BY timestamp DESC').all();
+      res.json(submissions);
     } catch (e) {
-      res.json([]);
+      res.status(500).json({ error: "Error fetching submissions" });
     }
   });
 
   // Delete Submission
   app.delete("/api/admin/submissions/:id", requireAdmin, async (req, res) => {
-    const submissionsFile = path.join(dataDir, 'submissions.json');
     try {
-      const data = await fs.readFile(submissionsFile, 'utf-8');
-      let submissions: any[] = JSON.parse(data);
-      submissions = submissions.filter(s => s.id !== req.params.id);
-      await fs.writeFile(submissionsFile, JSON.stringify(submissions, null, 2));
-      res.json({ success: true });
+      const stmt = db.prepare('DELETE FROM submissions WHERE id = ?');
+      const result = stmt.run(req.params.id);
+      
+      if (result.changes > 0) {
+        res.json({ success: true });
+      } else {
+        res.status(404).json({ error: "Submission not found" });
+      }
     } catch (e) {
       res.status(500).json({ error: "Error deleting submission" });
+    }
+  });
+
+  // Get Health Stats
+  app.get("/api/admin/health", requireAdmin, async (req, res) => {
+    try {
+      const submissionCount = db.prepare('SELECT count(*) as count FROM submissions').get() as { count: number };
+      const logCount = db.prepare('SELECT count(*) as count FROM system_logs').get() as { count: number };
+      const lastLogs = db.prepare('SELECT * FROM system_logs ORDER BY timestamp DESC LIMIT 5').all();
+      
+      res.json({
+        database: 'SQLite',
+        submissions: submissionCount.count,
+        logs: logCount.count,
+        lastLogs
+      });
+    } catch (e) {
+      res.status(500).json({ error: "Error fetching health stats" });
     }
   });
 
