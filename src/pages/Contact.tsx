@@ -1,8 +1,64 @@
 import { SEO } from "../components/SEO";
 import { motion } from "motion/react";
-import { Mail, MessageSquare, MapPin } from "lucide-react";
+import { Mail, MessageSquare, MapPin, Loader2, CheckCircle2 } from "lucide-react";
+import { useState } from "react";
 
 export function Contact() {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    message: ""
+  });
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({ ...prev, [id]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Basic validation
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.message) {
+      setErrorMessage("All fields are required.");
+      setStatus("error");
+      return;
+    }
+
+    setStatus("submitting");
+    setErrorMessage("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to submit the form.");
+      }
+
+      setStatus("success");
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        message: ""
+      });
+    } catch (err: any) {
+      setStatus("error");
+      setErrorMessage(err.message || "An unexpected error occurred.");
+    }
+  };
+
   return (
     <>
       <SEO 
@@ -66,32 +122,103 @@ export function Contact() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="bg-base-900 border border-white/10 rounded-2xl p-8"
           >
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="firstName" className="block text-sm font-medium text-white/80 mb-2">First Name</label>
-                  <input type="text" id="firstName" className="w-full bg-base-950 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow" placeholder="John" />
+            {status === "success" ? (
+              <div className="h-full flex flex-col items-center justify-center text-center py-12">
+                <div className="w-16 h-16 bg-accent/20 text-accent rounded-full flex items-center justify-center mb-6">
+                  <CheckCircle2 className="w-8 h-8" />
                 </div>
-                <div>
-                  <label htmlFor="lastName" className="block text-sm font-medium text-white/80 mb-2">Last Name</label>
-                  <input type="text" id="lastName" className="w-full bg-base-950 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow" placeholder="Doe" />
+                <h3 className="text-2xl font-bold mb-2">Message Sent!</h3>
+                <p className="text-white/70 mb-8 max-w-sm">
+                  Thanks for reaching out. We've received your message and will get back to you shortly.
+                </p>
+                <button 
+                  onClick={() => setStatus("idle")}
+                  className="bg-white/10 text-white font-medium py-2.5 px-6 rounded-lg hover:bg-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+                >
+                  Send Another Message
+                </button>
+              </div>
+            ) : (
+              <form className="space-y-6" onSubmit={handleSubmit}>
+                {status === "error" && (
+                  <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
+                    {errorMessage}
+                  </div>
+                )}
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <label htmlFor="firstName" className="block text-sm font-medium text-white/80 mb-2">First Name</label>
+                    <input 
+                      type="text" 
+                      id="firstName" 
+                      value={formData.firstName}
+                      onChange={handleChange}
+                      disabled={status === "submitting"}
+                      className="w-full bg-base-950 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow disabled:opacity-50" 
+                      placeholder="John" 
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="lastName" className="block text-sm font-medium text-white/80 mb-2">Last Name</label>
+                    <input 
+                      type="text" 
+                      id="lastName" 
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      disabled={status === "submitting"}
+                      className="w-full bg-base-950 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow disabled:opacity-50" 
+                      placeholder="Doe" 
+                      required
+                    />
+                  </div>
                 </div>
-              </div>
-              
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-white/80 mb-2">Email</label>
-                <input type="email" id="email" className="w-full bg-base-950 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow" placeholder="john@example.com" />
-              </div>
+                
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-white/80 mb-2">Email</label>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    value={formData.email}
+                    onChange={handleChange}
+                    disabled={status === "submitting"}
+                    className="w-full bg-base-950 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow disabled:opacity-50" 
+                    placeholder="john@example.com" 
+                    required
+                  />
+                </div>
 
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-white/80 mb-2">Message</label>
-                <textarea id="message" rows={5} className="w-full bg-base-950 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow resize-none" placeholder="How can we help you?"></textarea>
-              </div>
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-white/80 mb-2">Message</label>
+                  <textarea 
+                    id="message" 
+                    rows={5} 
+                    value={formData.message}
+                    onChange={handleChange}
+                    disabled={status === "submitting"}
+                    className="w-full bg-base-950 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow resize-none disabled:opacity-50" 
+                    placeholder="How can we help you?"
+                    required
+                  ></textarea>
+                </div>
 
-              <button type="submit" className="w-full bg-primary text-white font-medium py-3 rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base-900">
-                Send Message
-              </button>
-            </form>
+                <button 
+                  type="submit" 
+                  disabled={status === "submitting"}
+                  className="w-full bg-primary text-white font-medium py-3 rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base-900 disabled:opacity-70 flex items-center justify-center gap-2"
+                >
+                  {status === "submitting" ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    "Send Message"
+                  )}
+                </button>
+              </form>
+            )}
           </motion.div>
         </div>
       </div>
