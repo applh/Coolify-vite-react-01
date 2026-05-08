@@ -1,0 +1,6 @@
+{
+  "name": "Coolify Ready Starter",
+  "description": "Une application React/Vite préconfigurée pour un déploiement fluide sur Coolify.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
