@@ -111,31 +111,31 @@ export function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight mb-4">Zero configuration deployment.</h2>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight mb-4">Full-stack control.</h2>
             <p className="text-white/80 mb-8 leading-relaxed">
-              Coolify handles everything via Nixpacks by default, but we've included optional Docker configurations if you need fine-grained control over your Nginx setup for edge caching and compression.
+              While Coolify provides zero-config Nixpacks, we provide high-performance Docker and Nginx blueprints for maximum control over your Node.js runtime and static asset delivery.
             </p>
 
             <div className="space-y-4">
               <div className="flex items-start gap-4">
                 <CheckCircle2 className="w-5 h-5 text-accent shrink-0 mt-0.5" aria-hidden="true" />
                 <div>
-                  <h3 className="font-semibold mb-1">Push to GitHub</h3>
-                  <p className="text-sm text-white/70">Keep your source code safe in your repository.</p>
+                  <h3 className="font-semibold mb-1">Express.js Integration</h3>
+                  <p className="text-sm text-white/70">Securely handle API logic and private environment variables.</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
                 <CheckCircle2 className="w-5 h-5 text-accent shrink-0 mt-0.5" aria-hidden="true" />
                 <div>
-                  <h3 className="font-semibold mb-1">Create Coolify Project</h3>
-                  <p className="text-sm text-white/70">Add a new public repository resource.</p>
+                  <h3 className="font-semibold mb-1">Optimized Dockerfile</h3>
+                  <p className="text-sm text-white/70">Multi-stage builds for minimal production image sizes.</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
                 <CheckCircle2 className="w-5 h-5 text-accent shrink-0 mt-0.5" aria-hidden="true" />
                 <div>
-                  <h3 className="font-semibold mb-1">Deploy</h3>
-                  <p className="text-sm text-white/70">Coolify builds and serves the static assets immediately.</p>
+                  <h3 className="font-semibold mb-1">Smart Routing</h3>
+                  <p className="text-sm text-white/70">Single-page app routing and edge caching pre-configured.</p>
                 </div>
               </div>
             </div>
@@ -174,22 +174,20 @@ export function Home() {
               {activeTab === 'docker' ? (
                 <pre className="!bg-transparent !p-0 m-0">
                   <code>
-<span className="text-pink-400">FROM</span> node:20-alpine <span className="text-pink-400">AS</span> builder{'\n'}
+<span className="text-pink-400">FROM</span> node:23-alpine <span className="text-pink-400">AS</span> builder{'\n'}
 <span className="text-pink-400">WORKDIR</span> /app{'\n'}
-{'\n'}
-<span className="text-white/40"># Install dependencies</span>{'\n'}
 <span className="text-pink-400">COPY</span> package*.json ./{'\n'}
 <span className="text-pink-400">RUN</span> npm ci{'\n'}
-{'\n'}
-<span className="text-white/40"># Build application</span>{'\n'}
 <span className="text-pink-400">COPY</span> . .{'\n'}
 <span className="text-pink-400">RUN</span> npm run build{'\n'}
 {'\n'}
-<span className="text-pink-400">FROM</span> nginx:alpine{'\n'}
-<span className="text-pink-400">COPY</span> --from=builder /app/dist /usr/share/nginx/html{'\n'}
-<span className="text-pink-400">COPY</span> nginx.conf /etc/nginx/conf.d/default.conf{'\n'}
-<span className="text-pink-400">EXPOSE</span> 80{'\n'}
-<span className="text-pink-400">CMD</span> ["nginx", "-g", "daemon off;"]
+<span className="text-white/40"># High-performance full-stack runner</span>{'\n'}
+<span className="text-pink-400">FROM</span> node:23-alpine <span className="text-pink-400">AS</span> runner{'\n'}
+<span className="text-pink-400">WORKDIR</span> /app{'\n'}
+<span className="text-pink-400">COPY</span> --from=builder /app/dist ./dist{'\n'}
+<span className="text-pink-400">COPY</span> --from=builder /app/server.ts ./server.ts{'\n'}
+<span className="text-pink-400">EXPOSE</span> 3000{'\n'}
+<span className="text-pink-400">CMD</span> ["npm", "run", "start"]
                   </code>
                 </pre>
               ) : (
@@ -197,18 +195,14 @@ export function Home() {
                   <code>
 <span className="text-[#3b82f6]">server</span> {'{'}{'\n'}
 {'  '}<span className="text-primary-300">listen</span> 80;{'\n'}
-{'  '}<span className="text-primary-300">server_name</span> localhost;{'\n'}
 {'  '}<span className="text-primary-300">root</span> /usr/share/nginx/html;{'\n'}
-{'  '}<span className="text-primary-300">index</span> index.html;{'\n'}
 {'\n'}
-{'  '}<span className="text-[#3b82f6]">location</span> / {'{'}{'\n'}
-{'    '}<span className="text-primary-300">try_files</span> $uri $uri/ /index.html;{'\n'}
-{'  '}{'}'}{'\n'}
+{'  '}<span className="text-white/40"># Gzip & SPA handling</span>{'\n'}
+{'  '}<span className="text-primary-300">try_files</span> $uri $uri/ /index.html;{'\n'}
 {'\n'}
-{'  '}<span className="text-white/40"># Cache static assets</span>{'\n'}
-{'  '}<span className="text-[#3b82f6]">location</span> ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {'{'}{'\n'}
+{'  '}<span className="text-[#3b82f6]">location</span> ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {'{'}{'\n'}
 {'    '}<span className="text-primary-300">expires</span> 1y;{'\n'}
-{'    '}<span className="text-primary-300">add_header</span> Cache-Control "public, no-transform";{'\n'}
+{'    '}<span className="text-primary-300">add_header</span> Cache-Control "public, no-transform, immutable";{'\n'}
 {'  '}{'}'}{'\n'}
 {'}'}
                   </code>
