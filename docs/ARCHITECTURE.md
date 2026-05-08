@@ -16,7 +16,7 @@ CoolifyStarter is built using a modern, fast, and scalable full-stack project st
 
 - **Runtime:** Node.js 23+ (Recommended)
 - **Framework:** Express.js
-- **Persistence:** Local JSON File Storage (`/data/submissions.json`)
+- **Persistence:** Local JSON File Storage (`/data/submissions.json`) &mdash; *Upgrade to SQLite is planned for robust relational data.*
 - **Authentication:** Custom Passkey logic with `jsonwebtoken`
 - **Mail:** `nodemailer` for SMTP integrations
 

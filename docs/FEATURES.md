@@ -21,3 +21,8 @@ CoolifyStarter has evolved from a static frontend template into a robust, full-s
 - **Accessible Color Palette:** High-contrast text colors (`#c084fc` on dark backgrounds) improve readability and meet strict web accessibility standards.
 - **Fluid Animations:** Interface transitions and list entrances are powered by `motion/react` for a polished feel.
 - **SEO Ready:** Integration with `react-helmet-async` for managing complex document headers, canonical URLs, and Open Graph meta-tags.
+
+## 5. Planned Dynamic Features
+- **SQLite Database:** Replacing JSON files with a relational database for high-concurrency and complex querying.
+- **Cron Task Management:** Integrated job scheduling for automated tasks like backups, report generation, or data cleanup.
+- **Advanced Dashboard:** Expanded analytics and system health monitoring in the Admin area.

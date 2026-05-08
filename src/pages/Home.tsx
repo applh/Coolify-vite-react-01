@@ -41,7 +41,7 @@ export function Home() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-lg sm:text-xl text-white/80 leading-relaxed font-light max-w-2xl mb-10"
           >
-            A clean, high-performance React application pre-configured for seamless deployment on Coolify. Pull from GitHub and go live in seconds without vendor lock-in.
+            A production-ready full-stack starter. Built with React 19, powered by an integrated Express.js backend, and featuring a secure Admin area for managing your application.
           </motion.p>
 
           <motion.div 
@@ -53,8 +53,8 @@ export function Home() {
             <button className="px-6 py-3 rounded-full bg-white text-black font-semibold tracking-tight hover:scale-105 active:scale-95 transition-transform duration-200 shadow-[0_0_20px_rgba(255,255,255,0.2)] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base-950">
               Deploy to Coolify
             </button>
-            <a href="#architecture" className="px-6 py-3 rounded-full border border-white/10 hover:bg-white/5 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base-950">
-              View Architecture
+            <a href="/admin" className="px-6 py-3 rounded-full border border-primary/40 bg-primary/10 text-white hover:bg-primary/20 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base-950">
+              Admin Dashboard
             </a>
           </motion.div>
 
@@ -84,21 +84,21 @@ export function Home() {
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-32" id="architecture">
           <FeatureCard 
-            icon={<Server className="w-5 h-5 text-accent" aria-hidden="true" />}
-            title="Self-Hosted First"
-            desc="Built explicitly for Coolify's Nixpacks and Docker environments. No Vercel or Netlify required."
+            icon={<Terminal className="w-5 h-5 text-accent" aria-hidden="true" />}
+            title="Express.js Backend"
+            desc="Integrated Node.js backend for handling forms, authentication, and dynamic data with high performance."
             delay={0.4}
           />
           <FeatureCard 
-            icon={<Rocket className="w-5 h-5 text-[#3b82f6]" aria-hidden="true" />}
-            title="Vite + React 19"
-            desc="Lightning fast development server and optimized production builds with modern React standards."
+            icon={<CheckCircle2 className="w-5 h-5 text-[#3b82f6]" aria-hidden="true" />}
+            title="Admin Dashboard"
+            desc="Secure management interface for viewing submissions and controlling application state."
             delay={0.5}
           />
           <FeatureCard 
-            icon={<GitBranch className="w-5 h-5 text-[#f59e0b]" aria-hidden="true" />}
-            title="GitOps Ready"
-            desc="Just connect your public GitHub repository to Coolify. Auto-deployments work out of the box."
+            icon={<Server className="w-5 h-5 text-[#f59e0b]" aria-hidden="true" />}
+            title="Nixpacks Ready"
+            desc="Optimized for Coolify's Nixpacks, ensuring your full-stack app builds and deploys correctly every time."
             delay={0.6}
           />
         </div>
