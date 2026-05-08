@@ -46,8 +46,7 @@ Coolify/Nixpacks might be misdetecting the app as a "static site" because of the
 **Solution:**
 1. **Add `nixpacks.toml`:** Ensure there is a `nixpacks.toml` file in the root of your project with the following content to force the Node provider:
    ```toml
-   [providers]
-   node = {}
+   providers = ["node"]
 
    [start]
    cmd = "npm run start"

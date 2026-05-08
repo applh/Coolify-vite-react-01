@@ -1,6 +1,4 @@
-[providers]
-  # We explicitly declare this is a node app, not a purely static site
-  node = {}
+providers = ["node"]
 
 [build]
   cmd = "npm run build"
