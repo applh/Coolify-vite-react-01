@@ -64,6 +64,9 @@ Coolify/Nixpacks might be misdetecting the app as a "static site" because of the
 2. **Build Pack:** In Coolify, ensure your "Build Pack" is set to "Nixpacks" or "Dockerfile".
 3. **Check Logs:** Verify that your container logs show `Server running on http://0.0.0.0:3000`. If you see Nginx logs instead, the app is being served as static.
 
+> [!TIP]
+> To avoid these misdetection issues entirely when working with AI to build new features, refer to the [AI Prompting Guide](AI-PROMPTING-GUIDE.md).
+
 ### "Unexpected end of JSON input" on Local Dev
 **Issue:**
 When running `npm run dev`, the contact form fails with this error.
