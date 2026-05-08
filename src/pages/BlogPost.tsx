@@ -34,6 +34,7 @@ export default function BlogPost() {
           <img 
             src={post.image} 
             alt={post.title}
+            referrerPolicy="no-referrer"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-base-950 via-base-950/40 to-transparent" />
@@ -112,6 +113,7 @@ export default function BlogPost() {
                     <img 
                       src={otherPost.image} 
                       alt={otherPost.title}
+                      referrerPolicy="no-referrer"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>

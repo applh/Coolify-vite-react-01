@@ -19,7 +19,7 @@ export const posts: BlogPost[] = [
     category: "Engineering",
     author: "Alex Rivers",
     readingTime: "8 min read",
-    image: "https://images.unsplash.com/photo-1605745341112-85968b193ef5?auto=format&fm=avif&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=1200",
     content: `
       <h2>Introduction</h2>
       <p>Self-hosting is becoming the preferred choice for many developers in 2026. Platforms like Coolify have made it incredibly easy to manage your own VPS as if it were a high-end PaaS. In this guide, we'll look at how to properly containerize a React + Vite application for production.</p>
@@ -56,7 +56,7 @@ CMD ["nginx", "-g", "daemon off;"]</code></pre>
     category: "Architecture",
     author: "Sarah Chen",
     readingTime: "6 min read",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc51?auto=format&fm=avif&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc51?q=80&w=1200",
     content: `
       <h2>The 404 Problem</h2>
       <p>If you've ever deployed a React app and noticed that refreshing the page on <code>/dashboard</code> leads to a generic "Not Found" page, you've encountered the classic SPA routing issue. Since the server looks for a physical <code>dashboard.html</code> file which doesn't exist, it fails.</p>
@@ -84,7 +84,7 @@ CMD ["nginx", "-g", "daemon off;"]</code></pre>
     category: "Case Study",
     author: "James Wilson",
     readingTime: "12 min read",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fm=avif&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200",
     content: `
       <h2>The Cost of Convenience</h2>
       <p>Managed platforms are great when you're starting out. They handle scaling, databases, and SSL with one click. But as your traffic grows, so does the bill. In late 2025, our monthly infrastructure costs hit $2,000, while the actual resource usage didn't justify the price tag.</p>

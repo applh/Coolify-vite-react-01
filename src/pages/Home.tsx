@@ -67,8 +67,9 @@ export function Home() {
           >
             <div className="absolute inset-0 bg-gradient-to-t from-base-950/80 via-transparent to-transparent z-10" />
             <img 
-              src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fm=avif&fit=crop&q=80&w=1600&h=800" 
+              src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=1600" 
               alt="Futuristic Network Infrastructure"
+              referrerPolicy="no-referrer"
               className="w-full h-[400px] object-cover group-hover:scale-105 transition-transform duration-1000 opacity-60"
             />
             <div className="absolute bottom-8 left-8 z-20">
