@@ -41,13 +41,19 @@ Delete `package-lock.json` locally and run `npm install` to regenerate it, then 
 Submitting the contact form fails with a "405 Method Not Allowed" or an "Unexpected end of JSON input" error.
 
 **Cause:**
-- **Status 405:** In older static NGINX deployments, NGINX is serving the root folder as static assets and does not allow POST requests to those paths.
-- **Empty body:** The server might be crashing or timing out before sending a response.
+Coolify/Nixpacks might be misdetecting the app as a "static site" because of the `index.html` file in the root. This results in the app being served by a lightweight web server (like Nginx) that doesn't support POST requests to the `/api` routes, instead of running the Node.js Express server.
 
 **Solution:**
-1. Ensure you are using the **Full-Stack Docker** deployment method (as described in the Deployment Guide). This uses Express to handle API routes correctly.
-2. Check the logs for your container to see if the Node.js backend is throwing an error during the request.
-3. Verify that the frontend is calling `/api/contact` and not a different path.
+1. **Add `nixpacks.toml`:** Ensure there is a `nixpacks.toml` file in the root of your project with the following content to force the Node provider:
+   ```toml
+   [providers]
+   node = {}
+
+   [start]
+   cmd = "npm run start"
+   ```
+2. **Build Pack:** In Coolify, ensure your "Build Pack" is set to "Nixpacks" or "Dockerfile".
+3. **Check Logs:** Verify that your container logs show `Server running on http://0.0.0.0:3000`. If you see Nginx logs instead, the app is being served as static.
 
 ### "Unexpected end of JSON input" on Local Dev
 **Issue:**

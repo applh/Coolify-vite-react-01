@@ -1,0 +1,10 @@
+[providers]
+  # We explicitly declare this is a node app, not a purely static site
+  node = {}
+
+[build]
+  cmd = "npm run build"
+
+[start]
+  # Start the custom Express + Vite backend instead of a static host
+  cmd = "npm run start"
