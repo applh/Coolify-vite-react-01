@@ -250,7 +250,7 @@ function FeatureCard({ icon, title, desc, delay }: { icon: React.ReactNode, titl
       <div className="w-12 h-12 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
         {icon}
       </div>
-      <h3 className="font-display font-semibold text-xl mb-2">{title}</h3>
+      <h2 className="font-display font-semibold text-xl mb-2">{title}</h2>
       <p className="text-white/50 leading-relaxed text-sm">{desc}</p>
     </motion.div>
   );
