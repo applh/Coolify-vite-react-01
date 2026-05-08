@@ -5,7 +5,7 @@ import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from 'url';
 import jwt from "jsonwebtoken";
-import db from "./src/lib/db.js"; // Note: .js extension for ESM if running directly via tsx, or just "./src/lib/db"
+import db from "./src/lib/db.ts";
 import cron from "node-cron";
 
 // ESM Support
