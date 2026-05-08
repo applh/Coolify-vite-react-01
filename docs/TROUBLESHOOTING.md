@@ -36,6 +36,16 @@ Deployment fails on the `npm ci` build step with errors like `Invalid: lock file
 **Solution:**
 Delete `package-lock.json` locally and run `npm install` to regenerate it, then commit and push.
 
+### Startup Error: "PathError: Missing parameter name"
+**Issue:**
+The application crashes on startup with `PathError [TypeError]: Missing parameter name at index 1: *`.
+
+**Cause:**
+This is caused by a breaking change in `path-to-regexp` (used by Express 5). Modern versions require wildcard paths to be named (e.g., `*all` instead of `*`).
+
+**Solution:**
+In `server.ts`, the catch-all route has been updated to `app.get('*all', ...)`. If you add new catch-all routes, ensure they use the `*all` syntax.
+
 ### Server returned invalid response (Status 405 / Empty body)
 **Issue:**
 Submitting the contact form fails with a "405 Method Not Allowed" or an "Unexpected end of JSON input" error.
