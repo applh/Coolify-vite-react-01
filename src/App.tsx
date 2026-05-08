@@ -208,13 +208,12 @@ export default function App() {
 {'\n'}
 {'  '}<span className="text-[#3b82f6]">location</span> / {'{'}{'\n'}
 {'    '}<span className="text-primary-300">try_files</span> $uri $uri/ /index.html;{'\n'}
-{'    '}<span className="text-primary-300">add_header</span> Cache-Control "no-cache, no-store, must-revalidate";{'\n'}
 {'  '}{'}'}{'\n'}
 {'\n'}
 {'  '}<span className="text-white/40"># Cache static assets</span>{'\n'}
-{'  '}<span className="text-[#3b82f6]">location</span> ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$ {'{'}{'\n'}
+{'  '}<span className="text-[#3b82f6]">location</span> ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {'{'}{'\n'}
 {'    '}<span className="text-primary-300">expires</span> 1y;{'\n'}
-{'    '}<span className="text-primary-300">add_header</span> Cache-Control "public, max-age=31536000, immutable";{'\n'}
+{'    '}<span className="text-primary-300">add_header</span> Cache-Control "public, no-transform";{'\n'}
 {'  '}{'}'}{'\n'}
 {'}'}
                     </code>
